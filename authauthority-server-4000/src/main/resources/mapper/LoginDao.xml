@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hyx.authority.dao.LoginDao">
+
+    <select id="CheckUser"
+            parameterType="com.hyx.common.entities.User"
+            resultType="com.hyx.common.entities.User">
+        select * from user_base_info where name = #{name} and password = #{password}
+    </select>
+
+    <select id="CheckUser_1" resultType="com.hyx.common.entities.User">
+        select * from user_base_info where name = #{name}
+    </select>
+
+</mapper>

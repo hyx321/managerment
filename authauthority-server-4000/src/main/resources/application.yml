@@ -1,0 +1,62 @@
+server:
+  port: 4000
+
+spring:
+  application:
+    name: authority-server
+
+  #开启热部署
+  devtools:
+    restart:
+      enabled: true
+
+  #配置mysql数据库
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource      #当前数据源操作类型
+    driver-class-name:  com.mysql.cj.jdbc.Driver     #mysql驱动包
+    url: jdbc:mysql://localhost:3306/commerce_management?useUnicode=true&characterEncoding-utr-8&useSSL=false&serverTimezone=UTC
+    username: root
+    password: hyx2215
+
+  #配置redis
+  redis:
+    host: localhost
+    lettuce:
+      pool:
+        #连接池最大的连接数
+        max-active: 8
+        # 连接池最大阻塞等待时间，负数为没有限制
+        max-wait: -1ms
+        # 连接池中的最小空闲连接
+        min-idle: 0
+        # 连接池中的最大空闲连接
+        max-idle: 8
+    timeout: 50000ms
+    client-name: "hyx:login:"
+
+  #配置nacos
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+
+  profiles:
+    active: dev
+
+#配置Dubbo
+dubbo:
+  registry:
+    address: nacos://localhost:8848
+  application:
+    name: login-server
+  scan:
+    base-packages: com.hyx.login.service
+  protocol:
+    name: dubbo
+    port: 20882
+  consumer:
+    check: false
+
+#配置mybatis-plus
+mybatis-plus:
+  mapper-locations:  classpath:mapper/*.xml
