@@ -2,6 +2,8 @@ package com.hyx.authority;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.cloud.openfeign.FeignClient;
 
 /**
  * @author : xiaolang
@@ -9,6 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 
 @SpringBootApplication
+@EnableFeignClients
 public class AuthorityMain {
     public static void main(String[] args) {
         SpringApplication.run(AuthorityMain.class,args);

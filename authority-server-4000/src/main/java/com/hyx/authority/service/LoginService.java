@@ -9,7 +9,5 @@ import com.hyx.common.entities.User;
  */
 public interface LoginService {
 
-    CommonResult CheckUser(User user);
-
-    User CheckUser_1(String name);
+    CommonResult checkUser(User user);
 }

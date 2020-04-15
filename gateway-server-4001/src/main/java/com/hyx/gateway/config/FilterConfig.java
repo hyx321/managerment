@@ -18,6 +18,8 @@ import static org.springframework.web.cors.CorsConfiguration.ALL;
 /**
  * @author : xiaolang
  * @date ：Created in 2020/4/13 19:18
+ *
+ * 跨域设置
  */
 
 @Configuration
@@ -51,5 +53,4 @@ public class FilterConfig {
             return chain.filter(ctx);
         };
     }
-
 }

@@ -44,9 +44,9 @@ public class JwtRealm extends AuthorizingRealm {
         String token = (String)jwtToken.getPrincipal();
 
         JwtTokenUtils jwtTokenUtils = new JwtTokenUtils();
-        User user = jwtTokenUtils.decodeToken(token);
+        User user = jwtTokenUtils.parseToken(token);
 
-        User user1 = loginDao.CheckUser(user);
+        User user1 = loginDao.checkUser(user);
         return new SimpleAuthenticationInfo(user,Boolean.TRUE, getName());
     }
 

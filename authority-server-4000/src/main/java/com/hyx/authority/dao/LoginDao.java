@@ -13,7 +13,6 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface LoginDao extends BaseMapper<User> {
 
-    User CheckUser(User user);
+    User checkUser(User user);
 
-    User CheckUser_1(@Param("name") String name);
 }

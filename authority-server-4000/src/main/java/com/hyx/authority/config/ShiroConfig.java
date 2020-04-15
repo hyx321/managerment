@@ -48,7 +48,8 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/logout", "logout");
         filterChainDefinitionMap.put("/swagger-ui.html", "anon");
         filterChainDefinitionMap.put("/login", "anon");
-//        filterChainDefinitionMap.put("/home", "authc");
+        filterChainDefinitionMap.put("/menu/*", "noSessionCreation,jwtflter");
+        filterChainDefinitionMap.put("/user/*", "noSessionCreation,jwtflter");
         // 如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
 //        shiroFilterFactoryBean.setLoginUrl("/test");
         // 登录成功后要跳转的链接
@@ -87,12 +88,7 @@ public class ShiroConfig {
      */
     @Bean
     public MySessionManager mySessionManager() {
-        MySessionManager mySessionManager = new MySessionManager();
-        // 配置自定义SessionDao
-        //mySessionManager.setSessionDAO(redisSessionDao());
-        //mySessionManager.setGlobalSessionTimeout(expireTime * 1000);
-        //mySessionManager.setSessionDAO(redisSessionDAOCache());
-        return mySessionManager;
+        return new MySessionManager();
     }
 
     /**
@@ -120,6 +116,7 @@ public class ShiroConfig {
     }
 
     /**
+     *
      * 启用shiro 内部 Bean 生命周期管理
      * @return
      */

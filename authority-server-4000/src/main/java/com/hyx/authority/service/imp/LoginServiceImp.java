@@ -27,7 +27,7 @@ public class LoginServiceImp implements LoginService {
     private RedisTemplate redisTemplate;
 
     @Override
-    public CommonResult CheckUser(User user) {
+    public CommonResult checkUser(User user) {
 
         JwtTokenUtils jwtTokenUtils = new JwtTokenUtils();
         JwtToken jwtToken = new JwtToken(jwtTokenUtils.generateToken(user));
@@ -41,10 +41,5 @@ public class LoginServiceImp implements LoginService {
         }else{
             return new CommonResult<>(201,"账号或密码错误","no");
         }
-    }
-
-    @Override
-    public User CheckUser_1(String name) {
-        return null;
     }
 }

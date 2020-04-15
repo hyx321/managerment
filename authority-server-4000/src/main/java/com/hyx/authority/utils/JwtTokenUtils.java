@@ -28,13 +28,27 @@ public class JwtTokenUtils {
     @Value("${config.stringKey}")
     private String stringKey;
 
-    private final  String keyBackup = "oD2bB1dB0bI2lD3bQ3aC5cC2fA4sE2gPgE0aC4bC5bF0vM0dC5iD1bE2aI4bK2fHaT0dF5cJ1bJ3wE2uO3cA2nB0aE0dG6bApH2aI1cC1cC1eB0aB2bO2aM0pA0aB3lA";
+    private SecretKey key = null;
 
-    public String generateToken(User user){
+    /**
+     * 检验 Key 值
+     * 如果为空，使用备份
+     */
+    private  void setKey(){
+        String keyBackup = "oD2bB1dB0bI2lD3bQ3aC5cC2fA4sE2gPgE0aC4bC5bF0vM0dC5iD1bE2aI4bK2fHaT0dF5cJ1bJ3wE2uO3cA2nB0aE0dG6bApH2aI1cC1cC1eB0aB2bO2aM0pA0aB3lA";
         if(StringUtil.isNullOrEmpty(stringKey)){
             stringKey = keyBackup;
         }
-        SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(stringKey));
+        key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(stringKey));
+    }
+
+    /**
+     * 生成 Token
+     * @param user
+     * @return
+     */
+    public String generateToken(User user){
+       setKey();
         JwtBuilder builder = Jwts.builder()
                 .setIssuer(user.getName())
                 .setSubject(user.getPassword())
@@ -45,11 +59,13 @@ public class JwtTokenUtils {
         return builder.compact();
     }
 
-    public User decodeToken(String token){
-        if(StringUtil.isNullOrEmpty(stringKey)){
-            stringKey = keyBackup;
-        }
-        SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(stringKey));
+    /**
+     * 解析 Token
+     * @param token
+     * @return
+     */
+    public User parseToken(String token){
+        setKey();
         Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
         User user = new User();
         user.setName(claims.getIssuer());

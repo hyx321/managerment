@@ -19,5 +19,11 @@ public class User implements Serializable {
     private String name;
     private String password;
     private String salt;
-    private String session;
+    private String email;
+    private String is_active;
+    private String sex;
+    private String qq;
+    private String tel;
+    private String degree;
+    private String introduce;
 }

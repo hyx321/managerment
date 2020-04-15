@@ -7,15 +7,31 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: login_routh #payment_route    #路由的ID，没有固定规则但要求唯一，建议配合服务名
-          #uri: http://localhost:4000          #匹配后提供服务的路由地址
-          uri: lb://authority-server #匹配后提供服务的路由地址
+        - id: login_routh             #路由的ID，没有固定规则但要求唯一，建议配合服务名
+          uri: lb://authority-server  #匹配后提供服务的路由地址
           predicates:
-              - Path=/logintest        # 断言，路径相匹配的进行路由
+              - Path=/login       # 断言，路径相匹配的进行路由
+              - Method=POST
+        - id: home_routh             #路由的ID，没有固定规则但要求唯一，建议配合服务名
+          uri: lb://authority-server  #匹配后提供服务的路由地址
+          predicates:
+              - Path=/home       # 断言，路径相匹配的进行路由
+              - Method=POST
+        - id: menu_routh             #路由的ID，没有固定规则但要求唯一，建议配合服务名
+          uri: lb://authority-server  #匹配后提供服务的路由地址
+          predicates:
+              - Path=/menu/getMenuList       # 断言，路径相匹配的进行路由
+              - Method=Get
+        - id: user_routh
+          uri: lb://authority-server
+          predicates:
+              - Path=/user/getUserList
+              - Method=Get
       discovery:
         locator:
           enabled: true
 
+      #设置全局跨域，虽然我设置了没用
       globalcors:
         cors-configurations:
           '[/**]':

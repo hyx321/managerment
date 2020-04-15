@@ -12,6 +12,8 @@
         <module>common-api</module>
         <module>authority-server-4000</module>
         <module>gateway-server-4001</module>
+        <module>menu-server-4002</module>
+        <module>user-server-4003</module>
     </modules>
 
     <name>Maven</name>
@@ -54,10 +56,21 @@
         <dubbo.nacos.version>2.7.3</dubbo.nacos.version>
         <nacos.config.version>2.2.0.RELEASE</nacos.config.version>
         <gateway.version>2.2.2.RELEASE</gateway.version>
+        <freemarker.version>2.2.2.RELEASE</freemarker.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-generator</artifactId>
+                <version>${mybatisplus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-freemarker</artifactId>
+                <version>${freemarker.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-gateway</artifactId>

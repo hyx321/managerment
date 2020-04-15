@@ -33,21 +33,20 @@ public class LoginController {
     @PostMapping(value = "/login")
     @ApiOperation(value = "用户账号检测", notes = "备注")
     @ApiImplicitParam(name = "user", value = "用户的实体")
-    public CommonResult Login(@RequestBody User user){
-        log.info(user.toString());
-        return loginService.CheckUser(user);
+    public CommonResult login(@RequestBody User user){
+        return loginService.checkUser(user);
     }
 
     @PostMapping(value = "/logintest")
     @ApiOperation(value = "用户账号检测", notes = "备注")
-    public CommonResult LoginTest(){
+    public CommonResult loginTest(){
         User userBaseInfo = new User();
         userBaseInfo.setName("hyx");
         userBaseInfo.setPassword("123");
-        return loginService.CheckUser(userBaseInfo);
+        return loginService.checkUser(userBaseInfo);
     }
 
-    @GetMapping(value = "/home")
+    @PostMapping(value = "/home")
     @ApiOperation(value = "测试是否能通过", notes = "备注")
     public CommonResult test(){
         log.info("---->LoginController.test()");

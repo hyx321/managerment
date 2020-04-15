@@ -28,15 +28,13 @@ public class JwtFilter extends AccessControlFilter {
     @Override
     protected boolean isAccessAllowed(ServletRequest servletRequest, ServletResponse servletResponse, Object o) throws Exception {
         Subject subject = SecurityUtils.getSubject();
-
-        if(subject!=null && subject.isAuthenticated()){
-            return true;
-        }
-        return false;
+        return (subject!=null && subject.isAuthenticated());
     }
 
     /**
-     * 获取 Head 中的 Token
+     * 验证未通过
+     * 则查看 Header 是否携带 Token
+     * 有则重新认证
      * @param servletRequest
      * @param servletResponse
      * @return
