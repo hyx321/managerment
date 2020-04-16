@@ -1,9 +1,8 @@
-package com.hyx.authority.config;
+package com.hyx.menu.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.shiro.session.Session;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
@@ -18,8 +17,6 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
-
-import java.io.Serializable;
 
 /**
  * @author : xiaolang
@@ -39,17 +36,6 @@ public class RedisConfig {
         return jackson2JsonRedisSerializer;
     }
 
-    @Bean("sessionRedisTemplate")
-    @ConditionalOnMissingBean(name = "sessionRedisTemplate")
-    public RedisTemplate<Serializable, Session> sessionRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
-
-        RedisTemplate<Serializable, Session> template = new RedisTemplate<>();
-        template.setKeySerializer(jackson2JsonRedisSerializer());
-        template.setValueSerializer(jackson2JsonRedisSerializer());
-        template.setConnectionFactory(redisConnectionFactory);
-        template.setEnableTransactionSupport(true); //开启事务支持
-        return template;
-    }
 
     @Bean("redisTemplate")
     @ConditionalOnMissingBean(name = "redisTemplate")

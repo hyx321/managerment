@@ -1,14 +1,17 @@
 package com.hyx.authority.jwt;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.hyx.authority.dao.LoginDao;
 import com.hyx.authority.utils.JwtTokenUtils;
+import com.hyx.authority.utils.RedisUtils;
 import com.hyx.common.entities.SpUser;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
@@ -24,6 +27,9 @@ public class JwtRealm extends AuthorizingRealm {
     @Resource
     private LoginDao loginDao;
 
+    @Resource
+    RedisUtils redisUtils;
+
     /**
      * 权限授予
      * @param principals
@@ -31,12 +37,15 @@ public class JwtRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        return null;
+        SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
+        SpUser user  = (SpUser)principals.getPrimaryPrincipal();
+        authorizationInfo.addStringPermission("select");
+        return authorizationInfo;
     }
 
     /**
      * 身份认证
-     * @param authenticationToken
+     * @param  authenticationToken
      * @return
      * @throws AuthenticationException
      */
@@ -48,9 +57,16 @@ public class JwtRealm extends AuthorizingRealm {
         JwtTokenUtils jwtTokenUtils = new JwtTokenUtils();
         SpUser user = jwtTokenUtils.parseToken(token);
 
-        QueryWrapper<SpUser> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("username",user.getUsername());
-        SpUser temp = loginDao.selectOne(queryWrapper);
+        String tempUser = JSONObject.toJSONString(redisUtils.get("com;hyx:authority:"+user.getUsername()));
+        SpUser temp = JSONObject.parseObject(tempUser,SpUser.class);
+
+        if(temp == null){
+            QueryWrapper<SpUser> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("username",user.getUsername());
+            temp = loginDao.selectOne(queryWrapper);
+            redisUtils.set("com;hyx:authority:"+user.getUsername(),temp);
+        }
+
         if(temp == null){
             return null;
         }

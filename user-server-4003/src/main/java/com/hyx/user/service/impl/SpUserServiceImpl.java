@@ -1,10 +1,12 @@
 package com.hyx.user.service.impl;
 
+import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hyx.user.entity.SpUser;
 import com.hyx.user.mapper.SpUserMapper;
 import com.hyx.user.service.SpUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.hyx.user.utils.RedisUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -23,14 +25,22 @@ public class SpUserServiceImpl extends ServiceImpl<SpUserMapper, SpUser> impleme
 
     @Resource
     SpUserMapper spUserMapper;
+    @Resource
+    RedisUtils redisUtils;
+
     @Override
     public List<SpUser> getUsers() {
-        Page<SpUser> page = new Page<>(1,5);
-        spUserMapper.selectPage(page,null);
 
-        List<SpUser> spUsers =  page.getRecords();
-        page.getRecords().forEach(System.out::println);
-        System.out.println(page.getTotal());
-        return spUsers;
+        String tempMenu = JSONArray.toJSONString(redisUtils.get("com;hyx:user"));
+        List<SpUser> temp = JSONArray.parseArray(tempMenu,SpUser.class);
+
+        if(temp == null){
+            Page<SpUser> page = new Page<>(1,5);
+            spUserMapper.selectPage(page,null);
+            temp = page.getRecords();
+            page.getTotal();
+            redisUtils.set("com;hyx:user",temp);
+        }
+        return temp;
     }
 }

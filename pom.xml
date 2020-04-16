@@ -14,7 +14,6 @@
         <module>gateway-server-4001</module>
         <module>menu-server-4002</module>
         <module>user-server-4003</module>
-        <module>config-common</module>
     </modules>
 
     <name>Maven</name>
@@ -58,10 +57,16 @@
         <nacos.config.version>2.2.0.RELEASE</nacos.config.version>
         <gateway.version>2.2.2.RELEASE</gateway.version>
         <freemarker.version>2.2.2.RELEASE</freemarker.version>
+        <fastjson.version>1.2.68</fastjson.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-generator</artifactId>

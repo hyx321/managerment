@@ -12,6 +12,4 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface LoginDao extends BaseMapper<SpUser> {
 
-    SpUser checkUser(SpUser user);
-
 }

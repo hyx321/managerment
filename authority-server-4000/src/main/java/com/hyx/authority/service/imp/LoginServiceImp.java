@@ -33,8 +33,6 @@ public class LoginServiceImp implements LoginService {
         Subject subject = SecurityUtils.getSubject();
         subject.login(jwtToken);
 
-//        String temp = JSONObject.toJSONString(redisTemplate.opsForValue().get("login:producer:4000:user:"+user.getName()));
-//        SpUser user1 = JSONObject.parseObject(temp,SpUser.class);
         if(subject.isAuthenticated()){
             return new CommonResult<>(200,"欢迎你："+user.getUsername(),jwtToken);
         }else{

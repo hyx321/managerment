@@ -29,7 +29,7 @@ public class SwaggerCommonConfig {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("viboot-swagger2")
-                .description("Restful-API-Doc")
+                .description("Restful-API-Doce")
                 .termsOfServiceUrl("https://www.baidu.com")
                 .contact(new Contact("小小浪", "https://127.0.0.1:8080/hello", "huangyouxin123@qq.com"))
                 .version("1.0")

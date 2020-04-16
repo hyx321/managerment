@@ -50,7 +50,9 @@ public class JwtFilter extends AccessControlFilter {
 
         JwtToken jwtToken = new JwtToken(token);
         Subject subject = SecurityUtils.getSubject();
-        subject.login(jwtToken);
+        if( subject.getPrincipal() == null){
+            subject.login(jwtToken);
+        }
         return true;
     }
 }
