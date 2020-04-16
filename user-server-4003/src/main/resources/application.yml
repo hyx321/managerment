@@ -30,3 +30,6 @@ mybatis-plus:
   #开启 SQL 语句
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+moudle:
+  name: authority

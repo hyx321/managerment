@@ -1,32 +1,22 @@
-package com.hyx.user.entity;
+package com.hyx.common.entities;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import java.io.Serializable;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
+import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 
 /**
- * <p>
- * 会员表
- * </p>
- *
- * @author xiaolang
- * @since 2020-04-15
+ * @author : xiaolang
+ * @date ：Created in 2020/4/13 17:18
  */
+
 @Data
-@EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
-@ApiModel(value="SpUser对象", description="会员表")
+@AllArgsConstructor
+@NoArgsConstructor
 public class SpUser implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
     @ApiModelProperty(value = "自增id")
-    @TableId(value = "user_id", type = IdType.AUTO)
     private Integer userId;
 
     @ApiModelProperty(value = "登录名")
@@ -73,4 +63,8 @@ public class SpUser implements Serializable {
 
     @ApiModelProperty(value = "盐")
     private String salt;
+
+    public String getCredentialsSalt(){
+        return this.username+this.salt;
+    }
 }

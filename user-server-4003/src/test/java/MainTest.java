@@ -30,20 +30,6 @@ public class MainTest {
 
     private static String moudleName = "/user-server-4003";
 
-    @Autowired
-    SpUserMapper spUserMapper;
-
-    @Test
-    public void testPage(){
-        Page<SpUser> page = new Page<>(2,5);
-        spUserMapper.selectPage(page,null);
-         page.getRecords().forEach(System.out::println);
-         System.out.println(page.getTotal());
-}
-
-
-
-
     /**
      * <p>
      * 读取控制台内容

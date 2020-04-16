@@ -3,6 +3,7 @@ package com.hyx.authority.config;
 import com.hyx.authority.jwt.JwtFilter;
 import com.hyx.authority.jwt.JwtRealm;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
@@ -44,12 +45,17 @@ public class ShiroConfig {
         Map<String,String> filterChainDefinitionMap = new LinkedHashMap<String,String>();
         filterChainDefinitionMap.put("/home", "noSessionCreation,jwtflter"); //通过JwtFilter
         // 配置不会被拦截的链接 顺序判断
+
+        //匿名通过的链接
         filterChainDefinitionMap.put("/static/**", "anon");
         filterChainDefinitionMap.put("/logout", "logout");
         filterChainDefinitionMap.put("/swagger-ui.html", "anon");
         filterChainDefinitionMap.put("/login", "anon");
+
+        //需要登录认证
         filterChainDefinitionMap.put("/menu/*", "noSessionCreation,jwtflter");
         filterChainDefinitionMap.put("/user/*", "noSessionCreation,jwtflter");
+
         // 如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
 //        shiroFilterFactoryBean.setLoginUrl("/test");
         // 登录成功后要跳转的链接
@@ -80,7 +86,9 @@ public class ShiroConfig {
      */
     @Bean("jwtRealm")
     public JwtRealm jwtRealm(){
-        return new JwtRealm();
+        JwtRealm jwtRealm = new JwtRealm();
+        jwtRealm.setCredentialsMatcher(hashedCredentialsMatcher());
+        return jwtRealm;
     }
 
     /**
@@ -125,4 +133,17 @@ public class ShiroConfig {
         return LifecycleBeanPostProcessor();
     }*/
 
+    /**
+     * 凭证匹配器
+     * （由于我们的密码校验交给Shiro的SimpleAuthenticationInfo进行处理了
+     * ）
+     * @return
+     */
+    @Bean
+    public HashedCredentialsMatcher hashedCredentialsMatcher(){
+        HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
+        hashedCredentialsMatcher.setHashAlgorithmName("md5");//散列算法:这里使用MD5算法;
+        hashedCredentialsMatcher.setHashIterations(2);//散列的次数，比如散列两次，相当于 md5(md5(""));
+        return hashedCredentialsMatcher;
+    }
 }

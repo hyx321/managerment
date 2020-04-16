@@ -6,8 +6,8 @@
 <mapper namespace="com.hyx.authority.dao.LoginDao">
 
     <select id="checkUser"
-            parameterType="com.hyx.common.entities.User"
-            resultType="com.hyx.common.entities.User">
+            parameterType="com.hyx.common.entities.SpUser"
+            resultType="com.hyx.common.entities.SpUser">
         select * from user_base_info where name = #{name} and password = #{password}
     </select>
 

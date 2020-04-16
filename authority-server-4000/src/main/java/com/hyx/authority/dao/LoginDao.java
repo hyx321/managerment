@@ -1,9 +1,8 @@
 package com.hyx.authority.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.hyx.common.entities.User;
+import com.hyx.common.entities.SpUser;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
 /**
  * @author : xiaolang
@@ -11,8 +10,8 @@ import org.apache.ibatis.annotations.Param;
  */
 
 @Mapper
-public interface LoginDao extends BaseMapper<User> {
+public interface LoginDao extends BaseMapper<SpUser> {
 
-    User checkUser(User user);
+    SpUser checkUser(SpUser user);
 
 }

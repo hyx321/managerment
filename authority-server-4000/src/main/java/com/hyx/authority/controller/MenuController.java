@@ -3,6 +3,7 @@ package com.hyx.authority.controller;
 import com.hyx.authority.service.MenuService;
 import com.hyx.common.entities.CommonResult;
 import com.hyx.common.entities.Menu;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/menu")
+@Api(tags = "菜单信息接口",value = "菜单信息接口")
 public class MenuController {
 
     @Resource

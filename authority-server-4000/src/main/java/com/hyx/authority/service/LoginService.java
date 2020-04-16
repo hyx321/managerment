@@ -1,7 +1,7 @@
 package com.hyx.authority.service;
 
 import com.hyx.common.entities.CommonResult;
-import com.hyx.common.entities.User;
+import com.hyx.common.entities.SpUser;
 
 /**
  * @author : xiaolang
@@ -9,5 +9,5 @@ import com.hyx.common.entities.User;
  */
 public interface LoginService {
 
-    CommonResult checkUser(User user);
+    CommonResult checkUser(SpUser user);
 }

@@ -1,6 +1,6 @@
 package com.hyx.authority.utils;
 
-import com.hyx.common.entities.User;
+import com.hyx.common.entities.SpUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
@@ -47,10 +47,10 @@ public class JwtTokenUtils {
      * @param user
      * @return
      */
-    public String generateToken(User user){
+    public String generateToken(SpUser user){
        setKey();
         JwtBuilder builder = Jwts.builder()
-                .setIssuer(user.getName())
+                .setIssuer(user.getUsername())
                 .setSubject(user.getPassword())
                 .setAudience("you")
                 .setIssuedAt(new Date())
@@ -64,11 +64,11 @@ public class JwtTokenUtils {
      * @param token
      * @return
      */
-    public User parseToken(String token){
+    public SpUser parseToken(String token){
         setKey();
         Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
-        User user = new User();
-        user.setName(claims.getIssuer());
+        SpUser user = new SpUser();
+        user.setUsername(claims.getIssuer());
         user.setPassword(claims.getSubject());
         return user;
     }

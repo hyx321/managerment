@@ -1,6 +1,6 @@
 package com.hyx.common.service;
 
-import com.hyx.common.entities.User;
+import com.hyx.common.entities.SpUser;
 
 /**
  * @author : xiaolang
@@ -14,12 +14,12 @@ public interface TokenService {
      * @param user
      * @return
      */
-    String generateToken(User user);
+    String generateToken(SpUser user);
 
     /**
      * 解析Token
      * @param token
      * @return
      */
-    User decodeToken(String token);
+    SpUser decodeToken(String token);
 }

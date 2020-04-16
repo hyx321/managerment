@@ -1,5 +1,7 @@
 package com.hyx.authority.jwt;
 
+import com.hyx.authority.utils.JwtTokenUtils;
+import com.hyx.common.entities.SpUser;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.apache.shiro.authc.AuthenticationToken;
 
@@ -25,6 +27,7 @@ public class JwtToken implements AuthenticationToken {
 
     @Override
     public Object getCredentials() {
-        return Boolean.TRUE;
+        JwtTokenUtils jwtTokenUtils = new JwtTokenUtils();
+        return jwtTokenUtils.parseToken(token).getPassword();
     }
 }

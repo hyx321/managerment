@@ -2,6 +2,7 @@ package com.hyx.authority.controller;
 
 import com.hyx.authority.service.UserService;
 import com.hyx.common.entities.CommonResult;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,7 @@ import javax.annotation.Resource;
  */
 @RestController
 @RequestMapping("/user")
+@Api(tags = "用户信息接口",value = "用户信息接口")
 public class UserController {
 
     @Resource

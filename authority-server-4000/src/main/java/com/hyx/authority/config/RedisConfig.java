@@ -33,17 +33,21 @@ import java.io.Serializable;
 @EnableRedisHttpSession
 public class RedisConfig {
 
-    @Bean("sessionRedisTemplate")
-    @ConditionalOnMissingBean(name = "sessionRedisTemplate")
-    public RedisTemplate<Serializable, Session> sessionRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
+    public Jackson2JsonRedisSerializer jackson2JsonRedisSerializer(){
         Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<Object>(Object.class);
         ObjectMapper om = new ObjectMapper();
         om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
         jackson2JsonRedisSerializer.setObjectMapper(om);
+        return jackson2JsonRedisSerializer;
+    }
+
+    @Bean("sessionRedisTemplate")
+    @ConditionalOnMissingBean(name = "sessionRedisTemplate")
+    public RedisTemplate<Serializable, Session> sessionRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
 
         RedisTemplate<Serializable, Session> template = new RedisTemplate<>();
-        template.setKeySerializer(jackson2JsonRedisSerializer);
-        template.setValueSerializer(jackson2JsonRedisSerializer);
+        template.setKeySerializer(jackson2JsonRedisSerializer());
+        template.setValueSerializer(jackson2JsonRedisSerializer());
         template.setConnectionFactory(redisConnectionFactory);
         template.setEnableTransactionSupport(true); //开启事务支持
         return template;
@@ -54,16 +58,12 @@ public class RedisConfig {
     @Bean("redisTemplate")
     @ConditionalOnMissingBean(name = "redisTemplate")
     public RedisTemplate<Object, Object> redisCacheTemplate(RedisConnectionFactory redisConnectionFactory) {
-        Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<Object>(Object.class);
-        ObjectMapper om = new ObjectMapper();
-        om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-        jackson2JsonRedisSerializer.setObjectMapper(om);
 
         RedisTemplate<Object, Object> template = new RedisTemplate<>();
         template.setKeySerializer(new StringRedisSerializer());
-        template.setValueSerializer(jackson2JsonRedisSerializer);
-        template.setHashKeySerializer(jackson2JsonRedisSerializer);
-        template.setHashValueSerializer(jackson2JsonRedisSerializer);
+        template.setValueSerializer(jackson2JsonRedisSerializer());
+        template.setHashKeySerializer(jackson2JsonRedisSerializer());
+        template.setHashValueSerializer(jackson2JsonRedisSerializer());
         template.setConnectionFactory(redisConnectionFactory);
         template.setEnableTransactionSupport(true); //开启事务支持
         return template;

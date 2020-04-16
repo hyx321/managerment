@@ -1,8 +1,9 @@
 package com.hyx.authority.jwt;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.hyx.authority.dao.LoginDao;
 import com.hyx.authority.utils.JwtTokenUtils;
-import com.hyx.common.entities.User;
+import com.hyx.common.entities.SpUser;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -10,6 +11,7 @@ import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.util.ByteSource;
 
 import javax.annotation.Resource;
 
@@ -44,10 +46,15 @@ public class JwtRealm extends AuthorizingRealm {
         String token = (String)jwtToken.getPrincipal();
 
         JwtTokenUtils jwtTokenUtils = new JwtTokenUtils();
-        User user = jwtTokenUtils.parseToken(token);
+        SpUser user = jwtTokenUtils.parseToken(token);
 
-        User user1 = loginDao.checkUser(user);
-        return new SimpleAuthenticationInfo(user,Boolean.TRUE, getName());
+        QueryWrapper<SpUser> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("username",user.getUsername());
+        SpUser temp = loginDao.selectOne(queryWrapper);
+        if(temp == null){
+            return null;
+        }
+        return new SimpleAuthenticationInfo(temp,temp.getPassword(), ByteSource.Util.bytes(temp.getCredentialsSalt()), getName());
     }
 
     /**
