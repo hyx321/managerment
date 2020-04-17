@@ -3,7 +3,9 @@ package com.hyx.user.controller;
 
 import com.hyx.common.entities.CommonResult;
 import com.hyx.user.service.SpUserService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.stereotype.Controller;
@@ -26,8 +28,9 @@ public class SpUserController {
     @Resource
     SpUserService spUserService;
 
+    @ApiOperation(value = "获取用户列表", notes = "备注")
     @GetMapping(value = "/getUserList")
-    public CommonResult getUserList(){
-        return new CommonResult<>(200,"2",spUserService.getUsers());
+    public CommonResult getUserList(int current,int size){
+        return spUserService.getUsers(current,size);
     }
 }

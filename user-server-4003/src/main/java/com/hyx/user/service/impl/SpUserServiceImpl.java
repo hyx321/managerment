@@ -2,10 +2,11 @@ package com.hyx.user.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.hyx.user.entity.SpUser;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.hyx.common.entities.CommonResult;
+import com.hyx.common.entities.SpUser;
 import com.hyx.user.mapper.SpUserMapper;
 import com.hyx.user.service.SpUserService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hyx.user.utils.RedisUtils;
 import org.springframework.stereotype.Service;
 
@@ -25,22 +26,19 @@ public class SpUserServiceImpl extends ServiceImpl<SpUserMapper, SpUser> impleme
 
     @Resource
     SpUserMapper spUserMapper;
-    @Resource
-    RedisUtils redisUtils;
 
     @Override
-    public List<SpUser> getUsers() {
+    public CommonResult getUsers(int current, int size) {
 
-        String tempMenu = JSONArray.toJSONString(redisUtils.get("com;hyx:user"));
-        List<SpUser> temp = JSONArray.parseArray(tempMenu,SpUser.class);
-
-        if(temp == null){
-            Page<SpUser> page = new Page<>(1,5);
-            spUserMapper.selectPage(page,null);
-            temp = page.getRecords();
-            page.getTotal();
-            redisUtils.set("com;hyx:user",temp);
+        Page<SpUser> page = new Page<>(current,size);
+        spUserMapper.selectPage(page,null);
+        List<SpUser> temp = page.getRecords();
+        page.getTotal();
+        if(temp != null){
+            return new CommonResult<>(200,"用户列表信息获取成功",temp);
+        }else{
+            return new CommonResult<>(404,"用户列表信息获取失败",temp);
         }
-        return temp;
+
     }
 }

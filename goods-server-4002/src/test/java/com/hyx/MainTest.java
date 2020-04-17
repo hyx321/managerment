@@ -1,3 +1,5 @@
+package com.hyx;
+
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
@@ -11,14 +13,15 @@ import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 
+
 import java.util.Scanner;
+
 /**
  * @author : xiaolang
- * @date ：Created in 2020/4/15 17:09
+ * @date ：Created in 2020/4/17 15:24
  */
 public class MainTest {
-
-    private static String moudleName = "/user-server-4003";
+    private static String moudleName = "/goods-server-4002";
 
     /**
      * <p>
@@ -69,7 +72,7 @@ public class MainTest {
         // 包配置
         PackageConfig pc = new PackageConfig();
         //pc.setModuleName(scanner("user-server-4003"));
-        pc.setParent("com.hyx.user");
+        pc.setParent("com.hyx.goods");
         pc.setEntity("entity");
         pc.setService("service");
         pc.setController("controller");

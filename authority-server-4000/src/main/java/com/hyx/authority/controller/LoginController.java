@@ -38,7 +38,6 @@ public class LoginController {
 
     @PostMapping(value = "/logintest")
     @ApiOperation(value = "用户账号检测测试接口", notes = "备注")
-    @ApiImplicitParam(name = "user", value = "用户的实体")
     public CommonResult login(){
         SpUser user = new SpUser();
         user.setUsername("admin");

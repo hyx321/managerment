@@ -7,26 +7,36 @@ spring:
   cloud:
     gateway:
       routes:
+        # 登录
         - id: login_routh             #路由的ID，没有固定规则但要求唯一，建议配合服务名
           uri: lb://authority-server  #匹配后提供服务的路由地址
           predicates:
               - Path=/login       # 断言，路径相匹配的进行路由
               - Method=POST
-        - id: home_routh             #路由的ID，没有固定规则但要求唯一，建议配合服务名
-          uri: lb://authority-server  #匹配后提供服务的路由地址
+        # 权限测试
+        - id: home_routh
+          uri: lb://authority-server
           predicates:
-              - Path=/home       # 断言，路径相匹配的进行路由
+              - Path=/home
               - Method=POST
-        - id: menu_routh             #路由的ID，没有固定规则但要求唯一，建议配合服务名
-          uri: lb://authority-server  #匹配后提供服务的路由地址
+        # 菜单列表
+        - id: goods_menu_routh
+          uri: lb://authority-server
           predicates:
-              - Path=/menu/getMenuList       # 断言，路径相匹配的进行路由
+              - Path=/menu/getMenuList
               - Method=Get
-        - id: user_routh
+        # 用户信息列表
+        - id: user_userlist_routh
           uri: lb://authority-server
           predicates:
               - Path=/user/getUserList
               - Method=Get
+        # 商品信息列表
+        -  id: goods_goodsList_routh
+           uri: lb://authority-server
+           predicates:
+                - Path=/goods/getGoodsList
+                - Method=Get
       discovery:
         locator:
           enabled: true

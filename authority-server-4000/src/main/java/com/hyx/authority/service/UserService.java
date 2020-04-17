@@ -3,6 +3,8 @@ package com.hyx.authority.service;
 import com.hyx.common.entities.CommonResult;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @author : xiaolang
@@ -12,5 +14,5 @@ import org.springframework.web.bind.annotation.GetMapping;
 public interface UserService {
 
     @GetMapping(value = "sp-user/getUserList")
-    CommonResult getUserList();
+    CommonResult getUserList(@RequestParam("current") int current, @RequestParam("size")int size);
 }

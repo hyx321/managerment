@@ -1,34 +1,35 @@
 package com.hyx.authority.controller;
 
-import com.hyx.authority.service.UserService;
+import com.hyx.authority.service.GoodsService;
 import com.hyx.common.entities.CommonResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
 /**
  * @author : xiaolang
- * @date ：Created in 2020/4/15 19:35
+ * @date ：Created in 2020/4/17 15:50
  */
+
 @RestController
-@RequestMapping("/user")
-@Api(tags = "用户信息接口",value = "用户信息接口")
-public class UserController {
+@Api(tags = "商品相关操作",value = "商品相关操作")
+@RequestMapping("/goods")
+public class GoodsController {
 
     @Resource
-    private UserService userService;
+    GoodsService goodsService;
 
-    @RequiresPermissions(value = "select")
-    @GetMapping(value = "/getUserList")
+    @GetMapping(value = "/getGoodsList")
+    @ApiOperation(value = "获取商品信息列表", notes = "获取商品信息列表")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "current",dataType = "int",value = "当前页码"),
             @ApiImplicitParam(name = "size",dataType = "int",value = "获取的信息数")})
-    CommonResult getUserList(@RequestParam("current") int current,@RequestParam("size")int size){
-        return userService.getUserList(current,size);
+    public CommonResult getGoodsList(@RequestParam("current") int current, @RequestParam("size")int size){
+        return goodsService.getGoodsList(current,size);
     }
+
 }

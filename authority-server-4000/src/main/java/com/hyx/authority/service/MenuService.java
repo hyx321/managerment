@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
  * @author : xiaolang
  * @date ：Created in 2020/4/15 19:12
  */
-@FeignClient(name = "menu-server")
+@FeignClient(name = "goods-server")
 public interface MenuService {
 
     @GetMapping(value = "/getMenuList")

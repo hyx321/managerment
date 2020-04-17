@@ -1,8 +1,8 @@
 package com.hyx.user.service;
 
-import com.hyx.user.entity.SpUser;
 import com.baomidou.mybatisplus.extension.service.IService;
-
+import com.hyx.common.entities.CommonResult;
+import com.hyx.common.entities.SpUser;
 import java.util.List;
 
 /**
@@ -15,5 +15,5 @@ import java.util.List;
  */
 public interface SpUserService extends IService<SpUser> {
 
-    List<SpUser>  getUsers();
+    CommonResult getUsers(int current, int size);
 }

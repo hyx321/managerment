@@ -15,7 +15,6 @@ import springfox.documentation.spring.web.plugins.Docket;
  */
 public class SwaggerCommonConfig {
 
-
     public Docket createRestApi(String packageName) {
         String name = "com.hyx."+packageName+".controller";
         return new Docket(DocumentationType.SWAGGER_2)

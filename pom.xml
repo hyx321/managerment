@@ -12,7 +12,7 @@
         <module>common-api</module>
         <module>authority-server-4000</module>
         <module>gateway-server-4001</module>
-        <module>menu-server-4002</module>
+        <module>goods-server-4002</module>
         <module>user-server-4003</module>
     </modules>
 

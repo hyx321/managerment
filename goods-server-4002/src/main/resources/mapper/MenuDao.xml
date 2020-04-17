@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hyx.goods.mapper.MenuDao">
+
+
+    <resultMap id="MenuBaseResultMap" type="com.hyx.common.entities.MenuBase" >
+        <id property= "id" column="ps_id"  jdbcType="INTEGER" />
+        <result property="name" column="ps_name" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <resultMap id="MenuResultMap" type="com.hyx.common.entities.Menu">
+        <id property="id" column="ps_id" />
+        <result property="name" column="ps_name" />
+        <collection property="menuBaseList" column="ps_id" javaType="ArrayList"
+                    ofType="com.hyx.common.entities.MenuBase" select="getMenuBase"/>
+    </resultMap>
+
+    <select id="getMenu" resultMap="MenuResultMap">
+        select ps_id,ps_name from sp_permission where ps_level = '0'
+    </select>
+
+    <select id="getMenuBase" parameterType="integer" resultMap="MenuBaseResultMap">
+        select ps_id,ps_name from  sp_permission where ps_pid = #{id} and ps_level = '1'
+    </select>
+</mapper>

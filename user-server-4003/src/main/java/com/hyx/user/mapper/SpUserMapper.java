@@ -1,7 +1,7 @@
 package com.hyx.user.mapper;
 
-import com.hyx.user.entity.SpUser;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.hyx.common.entities.SpUser;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
