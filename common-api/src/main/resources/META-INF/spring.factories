@@ -1,2 +1,2 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.hyx.common.config.SwaggerCommonConfig
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.hyx.common.config.Swagger2Config
 

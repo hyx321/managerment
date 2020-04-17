@@ -1,6 +1,5 @@
-package com.hyx.authority.config;
+package com.hyx.common.config;
 
-import com.hyx.common.config.SwaggerCommonConfig;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,23 +15,31 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 /**
  * @author : xiaolang
  * @date ：Created in 2020/4/16 11:31
- * 正在测试把Swagger放入公共模块，请忽视这个配置类
- *
  */
 
-//@Configuration
-//@EnableSwagger2
+@Configuration
+@EnableSwagger2
 public class Swagger2Config {
-
-    private SwaggerCommonConfig swaggerCommonConfig =new SwaggerCommonConfig();
-
-    @Value("${moudle.name")
-    String packName;
 
     @Bean
     public Docket createRestApi() {
-        String packName = "authority";
-        return swaggerCommonConfig.createRestApi(packName);
+        String name = "com.hyx.authority.controller";
+        return new Docket(DocumentationType.SWAGGER_2)
+                .apiInfo(apiInfo())
+                .select()
+                .apis(RequestHandlerSelectors.basePackage(name))
+                .paths(PathSelectors.any())
+                .build();
+    }
+
+    private ApiInfo apiInfo() {
+        return new ApiInfoBuilder()
+                .title("viboot-swagger2")
+                .description("Restful-API-Doce")
+                .termsOfServiceUrl("https://www.baidu.com")
+                .contact(new Contact("小小浪", "https://127.0.0.1:8080/hello", "huangyouxin123@qq.com"))
+                .version("1.0")
+                .build();
     }
 
 }

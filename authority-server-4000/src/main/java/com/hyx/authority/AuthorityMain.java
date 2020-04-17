@@ -11,7 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
  * @author : xiaolang
  * @date ：Created in 2020/4/13 17:27
  */
-
+@ComponentScan("com.hyx.common")
 @SpringBootApplication
 @EnableFeignClients
 public class AuthorityMain {
