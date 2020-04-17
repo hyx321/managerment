@@ -24,13 +24,13 @@ A(前端界面) --> B(gateway-server)
     G[简陋流程]
 ```
 # 技术栈
-+ nacos 注册中心、配置服务
-+ gateway 网关
-+ openfeign 服务调用
-+ shiro 安全管理
-+ redis 数据存储 
-+ mysql 数据库
-+ mybatisplus 
++ `nacos` 注册中心、配置服务
++ `gateway` 网关服务
++ `openfeign` 服务调用
++ `shiro` 安全管理
++ `redis` 数据存储 
++ `mysql` 数据库
++ `mybatisplus` 
 
 *太菜了我*
 
