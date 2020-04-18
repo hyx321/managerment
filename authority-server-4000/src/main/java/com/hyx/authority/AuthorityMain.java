@@ -6,12 +6,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.ComponentScans;
 
 /**
  * @author : xiaolang
  * @date ：Created in 2020/4/13 17:27
  */
 //@ComponentScan("com.hyx.common")
+@ComponentScan("com.hyx")
 @SpringBootApplication
 @EnableFeignClients
 public class AuthorityMain {

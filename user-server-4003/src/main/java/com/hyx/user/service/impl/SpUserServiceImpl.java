@@ -1,13 +1,11 @@
 package com.hyx.user.service.impl;
 
-import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hyx.common.entities.CommonResult;
 import com.hyx.common.entities.SpUser;
 import com.hyx.user.mapper.SpUserMapper;
 import com.hyx.user.service.SpUserService;
-import com.hyx.user.utils.RedisUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

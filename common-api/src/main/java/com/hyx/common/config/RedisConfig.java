@@ -1,4 +1,4 @@
-package com.hyx.goods.config;
+package com.hyx.common.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
@@ -18,6 +18,9 @@ import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
+import javax.annotation.Resource;
+import java.io.Serializable;
+
 /**
  * @author : xiaolang
  * @date ：Created in 2020/4/9 11:14
@@ -28,6 +31,9 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 @EnableRedisHttpSession
 public class RedisConfig {
 
+    @Resource
+    RedisConnectionFactory redisConnectionFactory;
+
     private Jackson2JsonRedisSerializer jackson2JsonRedisSerializer(){
         Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<Object>(Object.class);
         ObjectMapper om = new ObjectMapper();
@@ -36,10 +42,9 @@ public class RedisConfig {
         return jackson2JsonRedisSerializer;
     }
 
-
     @Bean("redisTemplate")
     @ConditionalOnMissingBean(name = "redisTemplate")
-    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
+    public RedisTemplate<String, Object> redisTemplate() {
 
         RedisTemplate<String, Object> template = new RedisTemplate<>();
         template.setKeySerializer(new StringRedisSerializer());
@@ -51,17 +56,18 @@ public class RedisConfig {
         return template;
     }
 
+
     /**
      * 配置使用注解的时候缓存配置，默认是序列化反序列化的形式，加上此配置则为 json 形式
      * Redis 和 SpringCache 整合的缓存管理器
      */
     @Bean
-    public CacheManager cacheManager(RedisConnectionFactory factory) {
+    public CacheManager cacheManager() {
         // 配置序列化
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig();
         config.serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer())).
                                 serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()));
 //                                .entryTtl(Duration.ofMinutes(1));
-        return RedisCacheManager.builder(factory).cacheDefaults(config).build();
+        return RedisCacheManager.builder(redisConnectionFactory).cacheDefaults(config).build();
     }
 }

@@ -2,9 +2,9 @@ package com.hyx.goods.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.hyx.common.entities.Menu;
+import com.hyx.common.utils.RedisUtils;
 import com.hyx.goods.mapper.MenuDao;
 import com.hyx.goods.service.MenuService;
-import com.hyx.goods.utils.RedisUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

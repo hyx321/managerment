@@ -1,4 +1,4 @@
-package com.hyx.goods.utils;
+package com.hyx.common.utils;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;

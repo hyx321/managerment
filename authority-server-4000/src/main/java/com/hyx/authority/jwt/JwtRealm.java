@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.hyx.authority.dao.LoginDao;
 import com.hyx.authority.utils.JwtTokenUtils;
-import com.hyx.authority.utils.RedisUtils;
+import com.hyx.common.utils.RedisUtils;
 import com.hyx.common.entities.SpUser;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
