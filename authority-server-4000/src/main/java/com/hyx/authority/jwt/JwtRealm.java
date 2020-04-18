@@ -17,6 +17,8 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author : xiaolang
@@ -57,14 +59,20 @@ public class JwtRealm extends AuthorizingRealm {
         JwtTokenUtils jwtTokenUtils = new JwtTokenUtils();
         SpUser user = jwtTokenUtils.parseToken(token);
 
-        String tempUser = JSONObject.toJSONString(redisUtils.get("com;hyx:authority:"+user.getUsername()));
+        String tempUser = JSONObject.toJSONString( redisUtils.hmget("com;hyx:authority:"+user.getUsername()));
         SpUser temp = JSONObject.parseObject(tempUser,SpUser.class);
 
-        if(temp == null){
+        if(temp.getUsername() == null){
             QueryWrapper<SpUser> queryWrapper = new QueryWrapper<>();
             queryWrapper.eq("username",user.getUsername());
             temp = loginDao.selectOne(queryWrapper);
-            redisUtils.set("com;hyx:authority:"+user.getUsername(),temp);
+            if(temp != null){
+                Map<String,Object> map = new HashMap<>();
+                map.put("username",temp.getUsername());
+                map.put("password",temp.getPassword());
+                map.put("salt",temp.getSalt());
+                redisUtils.hmset("com;hyx:authority:"+user.getUsername(),map);
+            }
         }
 
         if(temp == null){

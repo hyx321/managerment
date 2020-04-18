@@ -12,7 +12,6 @@ import org.springframework.context.annotation.ComponentScans;
  * @author : xiaolang
  * @date ：Created in 2020/4/13 17:27
  */
-//@ComponentScan("com.hyx.common")
 @ComponentScan("com.hyx")
 @SpringBootApplication
 @EnableFeignClients
