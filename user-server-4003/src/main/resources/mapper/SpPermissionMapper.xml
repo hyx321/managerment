@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyx.user.mapper.SpPermissionMapper">
+
+    <resultMap id="PermissionResultMap" type="com.hyx.user.entities.SpPermission" >
+        <id property= "psId" column="ps_id"  jdbcType="INTEGER" />
+        <result property="psName" column="ps_name" jdbcType="VARCHAR"/>
+        <result property="psLevel" column="ps_level" jdbcType="VARCHAR"/>
+        <result property="psPath" column="ps_api_path" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <select id="getPermissionList" resultMap="PermissionResultMap">
+        select
+            a.ps_id ,a.ps_name,a.ps_level, ps_api_path
+            from sp_permission as a
+                inner join  sp_permission_api as b
+                    on a.ps_id = b.ps_id
+            ORDER BY a.ps_level
+    </select>
+</mapper>
