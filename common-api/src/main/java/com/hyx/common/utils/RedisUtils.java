@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -669,7 +670,7 @@ public class RedisUtils {
      *            值
      * @return
      */
-    public boolean lSet(String key, List<Object> value) {
+    public boolean lSetList(String key, Collection<Object> value) {
         try {
             redisTemplate.opsForList().rightPushAll(key, value);
             return true;
@@ -690,7 +691,7 @@ public class RedisUtils {
      *            时间(秒)
      * @return
      */
-    public boolean lSet(String key, List<Object> value, long time) {
+    public boolean lSetList(String key, List<Object> value, long time) {
         try {
             redisTemplate.opsForList().rightPushAll(key, value);
             if (time > 0)

@@ -2,6 +2,7 @@ package com.hyx.goods.controller;
 
 import com.hyx.common.entities.CommonResult;
 import com.hyx.goods.service.SpGoodsService;
+import com.hyx.goods.service.SpOrderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -17,20 +18,19 @@ import javax.annotation.Resource;
  * @date ：Created in 2020/4/17 15:23
  */
 @RestController
-@RequestMapping("/sp-goods")
-@Api(tags = "商品相关操作",value = "商品相关操作")
-public class GoodsController {
+@RequestMapping("/sp-order")
+@Api(tags = "订单相关操作",value = "订单相关操作")
+public class OrderController {
 
     @Resource
-    SpGoodsService spGoodsService;
+    SpOrderService spOrderService;
 
-    @ApiOperation(value = "获取商品信息列表", notes = "备注")
-    @GetMapping(value = "/getGoodsList")
+    @ApiOperation(value = "获取订单信息列表", notes = "备注")
+    @GetMapping(value = "/getOrderList")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "current", dataType = "int", value = "当前页码"),
-            @ApiImplicitParam(name = "size", dataType = "int", value = "获取的信息数")})
-    public CommonResult getGoodsList(int current, int size) {
-        return spGoodsService.getGoodsList(current, size);
+            @ApiImplicitParam(name = "current",dataType = "int",value = "当前页码"),
+            @ApiImplicitParam(name = "size",dataType = "int",value = "获取的信息数")})
+    public CommonResult getOrderList(int current,int size){
+        return spOrderService.getOrderList(current,size);
     }
-
 }

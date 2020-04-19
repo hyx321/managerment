@@ -14,5 +14,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface UserService {
 
     @GetMapping(value = "sp-user/getUserList")
-    CommonResult getUserList(@RequestParam("current") int current, @RequestParam("size")int size);
+    CommonResult getUserList(@RequestParam("current") int current, @RequestParam("size") int size);
+
+    @GetMapping(value = "sp-permission/getPermissionList")
+    CommonResult getPermissionList(@RequestParam("current") int current, @RequestParam("size") int size);
+
+    @GetMapping(value = "sp-role/getRoleList")
+    CommonResult getRoleList();
 }

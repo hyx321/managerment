@@ -18,8 +18,6 @@ import java.util.Scanner;
  */
 public class MainTest {
 
-    private static String moudleName = "/user-server-4003";
-
     /**
      * <p>
      * 读取控制台内容
@@ -40,6 +38,7 @@ public class MainTest {
     }
 
     public static void main(String[] args) {
+        String moudleName = "/user-server-4003";
         // 代码生成器
         AutoGenerator mpg = new AutoGenerator();
 
@@ -70,17 +69,19 @@ public class MainTest {
         PackageConfig pc = new PackageConfig();
         //pc.setModuleName(scanner("user-server-4003"));
         pc.setParent("com.hyx.user");
-        pc.setEntity("entity");
+        pc.setEntity("entities");
         pc.setService("service");
         pc.setController("controller");
         mpg.setPackageInfo(pc);
 
+
+        String table = "sp_role";
         // 策略配置
         StrategyConfig strategy = new StrategyConfig();
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
         strategy.setEntityLombokModel(true);
-        strategy.setInclude(scanner("表名"));
+        strategy.setInclude(table);
         strategy.setControllerMappingHyphenStyle(true);
         mpg.setStrategy(strategy);
         // 选择 freemarker 引擎需要指定如下加，注意 pom 依赖必须有！

@@ -2,6 +2,7 @@ package com.hyx.goods.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hyx.common.entities.CommonResult;
+import com.hyx.common.entities.SpOrder;
 import com.hyx.goods.entity.SpGoods;
 import com.hyx.goods.mapper.SpGoodsMapper;
 import com.hyx.goods.service.SpGoodsService;
@@ -37,4 +38,5 @@ public class SpGoodsServiceImpl extends ServiceImpl<SpGoodsMapper, SpGoods> impl
             return new CommonResult<>(404,"商品列表信息获取失败",temp);
         }
     }
+
 }

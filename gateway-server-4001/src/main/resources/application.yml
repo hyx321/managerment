@@ -32,11 +32,29 @@ spring:
               - Path=/user/getUserList
               - Method=Get
         # 商品信息列表
-        -  id: goods_goodsList_routh
-           uri: lb://authority-server
-           predicates:
+        - id: goods_goodsList_routh
+          uri: lb://authority-server
+          predicates:
                 - Path=/goods/getGoodsList
                 - Method=Get
+        # 订单信息列表
+        - id: goods_orderList_routh
+          uri: lb://authority-server
+          predicates:
+                - Path=/goods/getOrderList
+                - Method=Get
+        # 权限信息列表
+        - id: user_permissionList_routh
+          uri: lb://authority-server
+          predicates:
+            - Path=/user/getPermissionList
+            - Method=Get
+        # 角色信息列表
+        - id: user_roleList_routh
+          uri: lb://authority-server
+          predicates:
+            - Path=/user/getRoleList
+            - Method=Get
       discovery:
         locator:
           enabled: true

@@ -21,28 +21,14 @@ import java.util.Scanner;
  * @date ：Created in 2020/4/17 15:24
  */
 public class MainTest {
-    private static String moudleName = "/goods-server-4002";
-
     /**
      * <p>
      * 读取控制台内容
      * </p>
      */
-    public static String scanner(String tip) {
-        Scanner scanner = new Scanner(System.in);
-        StringBuilder help = new StringBuilder();
-        help.append("请输入" + tip + "：");
-        System.out.println(help.toString());
-        if (scanner.hasNext()) {
-            String ipt = scanner.next();
-            if (StringUtils.isNotEmpty(ipt)) {
-                return ipt;
-            }
-        }
-        throw new MybatisPlusException("请输入正确的" + tip + "！");
-    }
 
     public static void main(String[] args) {
+        String moudleName = "/goods-server-4002";
         // 代码生成器
         AutoGenerator mpg = new AutoGenerator();
 
@@ -83,7 +69,9 @@ public class MainTest {
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
         strategy.setEntityLombokModel(true);
-        strategy.setInclude(scanner("表名"));
+
+
+        strategy.setInclude("sp_permission_api","sp_manager");
         strategy.setControllerMappingHyphenStyle(true);
         mpg.setStrategy(strategy);
         // 选择 freemarker 引擎需要指定如下加，注意 pom 依赖必须有！

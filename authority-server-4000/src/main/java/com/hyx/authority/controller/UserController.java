@@ -31,4 +31,19 @@ public class UserController {
     CommonResult getUserList(@RequestParam("current") int current,@RequestParam("size")int size){
         return userService.getUserList(current,size);
     }
+
+    @ApiOperation(value = "获取权限列表列表", notes = "备注")
+    @GetMapping(value = "/getPermissionList")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "current",dataType = "int",value = "当前页码"),
+            @ApiImplicitParam(name = "size",dataType = "int",value = "获取的信息数")})
+    public CommonResult getPermissionList(int current, int size){
+        return userService.getPermissionList(current,size);
+    }
+
+    @ApiOperation(value = "获取角色列表", notes = "备注")
+    @GetMapping(value = "/getRoleList")
+    public CommonResult getUserList(){
+        return userService.getRoleList();
+    }
 }

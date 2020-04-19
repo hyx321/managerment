@@ -15,4 +15,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface SpGoodsService extends IService<SpGoods> {
 
     CommonResult getGoodsList(int current,int size);
+
 }

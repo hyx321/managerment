@@ -1,6 +1,7 @@
 package com.hyx.authority.service.imp;
 
 import com.hyx.authority.service.GoodsService;
+import com.hyx.authority.service.OrderService;
 import com.hyx.common.entities.CommonResult;
 import org.springframework.stereotype.Service;
 
@@ -10,11 +11,10 @@ import org.springframework.stereotype.Service;
  */
 
 @Service
-public class GoodsServiceImpl implements GoodsService{
+public class OrderServiceImpl implements OrderService {
 
     @Override
-    public CommonResult getGoodsList(int current, int size) {
+    public CommonResult getOrderList(int current, int size) {
         return new CommonResult<>(400,"请求超时","请求超时");
     }
-
 }

@@ -1,6 +1,7 @@
 package com.hyx.authority.controller;
 
 import com.hyx.authority.service.GoodsService;
+import com.hyx.authority.service.OrderService;
 import com.hyx.common.entities.CommonResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -23,6 +24,9 @@ public class GoodsController {
     @Resource
     GoodsService goodsService;
 
+    @Resource
+    OrderService orderService;
+
     @GetMapping(value = "/getGoodsList")
     @ApiOperation(value = "获取商品信息列表", notes = "获取商品信息列表")
     @ApiImplicitParams({
@@ -32,4 +36,12 @@ public class GoodsController {
         return goodsService.getGoodsList(current,size);
     }
 
+    @GetMapping(value = "/getOrderList")
+    @ApiOperation(value = "获取订单信息列表", notes = "获取订单信息列表")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "currenr",dataType = "int",value = "当前页码"),
+            @ApiImplicitParam(name = "size",dataType = "int",value = "获取的信息数")})
+    public CommonResult getOrderList(@RequestParam("current") int current, @RequestParam("size")int size){
+        return orderService.getOrderList(current,size);
+    }
 }
