@@ -14,6 +14,7 @@
         <module>gateway-server-4001</module>
         <module>goods-server-4002</module>
         <module>user-server-4003</module>
+        <module>miaosha-server-4004</module>
     </modules>
 
     <name>Maven</name>

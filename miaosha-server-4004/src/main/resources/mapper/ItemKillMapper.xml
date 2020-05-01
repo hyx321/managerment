@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyx.miaosha.mapper.ItemKillMapper">
+    <resultMap id="itemKill" type="com.hyx.miaosha.entities.ItemKill">
+        <id property= "id" column="id"  jdbcType="INTEGER" />
+        <result property="itemId" column="item_id" jdbcType="INTEGER"/>
+        <result property="itemName" column="name" jdbcType="VARCHAR" />
+        <result property="total" column="total" jdbcType="VARCHAR" />
+        <result property="startTime" column="start_time" jdbcType="TIMESTAMP" />
+        <result property="endTime" column="end_time" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <update id="updateGoodsTotal" parameterType="integer">
+        update item_kill
+            set total = total -1
+        where item_id = #{itemId} and total > 0
+    </update>
+
+    <select id="getMiaoshaList" resultMap="itemKill">
+        select a.id,name,total,start_time,end_time,
+        (
+            CASE WHEN (
+                now() BETWEEN start_time AND end_time
+                AND total > 0)
+              THEN 1
+            ELSE 0
+            END
+        ) AS isKill
+        from item join item_kill as a on item.id = a.item_id and a.is_active = 1;
+    </select>
+
+    <select id="getGoods"  parameterType="integer" resultMap="itemKill">
+        select a.id,name,total,start_time,end_time,item_id,
+        (
+            CASE WHEN (
+                now() BETWEEN start_time AND end_time
+                AND total > 0)
+              THEN 1
+            ELSE 0
+            END
+        ) AS isKill
+        from item join item_kill as a on item.id = a.item_id and a.is_active = 1 and  a.item_id = #{itemId};
+    </select>
+</mapper>

@@ -1,6 +1,6 @@
 # managerment
 
-为加深知识理解而做的`Demo`(持续中)
+为加深知识理解而做的`Demo`
 
 ***
 
@@ -11,6 +11,7 @@
 + `goods-server` 商品服务
 + `user-server` 用户服务
 + `common-api` 通用模块
++ `miaosha-server` 秒杀服务
 
 # 流程
 

@@ -11,22 +11,14 @@ import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 
-
-import java.util.Scanner;
-
 /**
  * @author : xiaolang
- * @date ：Created in 2020/4/17 15:24
+ * @date ：Created in 2020/4/30 13:12
  */
-public class MainTest {
-    /**
-     * <p>
-     * 读取控制台内容
-     * </p>
-     */
 
+public class TestMain {
     public static void main(String[] args) {
-        String moudleName = "/goods-server-4002";
+        String moudleName = "/miaosha-server-4004";
         // 代码生成器
         AutoGenerator mpg = new AutoGenerator();
 
@@ -45,7 +37,7 @@ public class MainTest {
 
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://localhost:3306/management?useUnicode=true&serverTimezone=GMT&useSSL=false&characterEncoding=utf8");
+        dsc.setUrl("jdbc:mysql://localhost:3306/db_second_kill?useUnicode=true&serverTimezone=GMT&useSSL=false&characterEncoding=utf8");
         // dsc.setSchemaName("public");
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
         dsc.setUsername("root");
@@ -56,8 +48,8 @@ public class MainTest {
         // 包配置
         PackageConfig pc = new PackageConfig();
         //pc.setModuleName(scanner("user-server-4003"));
-        pc.setParent("com.hyx.goods");
-        pc.setEntity("entity");
+        pc.setParent("com.hyx.miaosha");
+        pc.setEntity("entities");
         pc.setService("service");
         pc.setController("controller");
         mpg.setPackageInfo(pc);
@@ -69,7 +61,7 @@ public class MainTest {
         strategy.setEntityLombokModel(true);
 
 
-        strategy.setInclude("sp_permission_api","sp_manager");
+        strategy.setInclude("item","item_kill","item_kill_success","random_code");
         strategy.setControllerMappingHyphenStyle(true);
         mpg.setStrategy(strategy);
         // 选择 freemarker 引擎需要指定如下加，注意 pom 依赖必须有！
