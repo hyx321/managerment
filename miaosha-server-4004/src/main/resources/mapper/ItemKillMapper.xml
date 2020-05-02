@@ -12,7 +12,7 @@
 
     <update id="updateGoodsTotal" parameterType="integer">
         update item_kill
-            set total = total -1
+            set total = 0
         where item_id = #{itemId} and total > 0
     </update>
 

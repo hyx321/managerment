@@ -23,7 +23,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -66,35 +68,54 @@ public class ItemKillServiceImpl extends ServiceImpl<ItemKillMapper, ItemKill> i
 
     public CommonResult getMiaosha(KillRequest killRequest)throws Exception{
 
-        String lock = killRequest.getItemId()+ ":"+killRequest.getUserId();
-        lock = "lock";
+        String lock = "lock";
         RLock rLock = redissonClient.getLock(lock);
         logger.info("得到锁："+lock);
         try {
             if (rLock.tryLock(0, 3, TimeUnit.SECONDS)) {
                 logger.info("重新获取锁："+lock);
-                QueryWrapper<ItemKillSuccess> queryWrapperq = new QueryWrapper<>();
-                queryWrapperq.eq("user_id", killRequest.getUserId());
-                queryWrapperq.eq("item_id", killRequest.getItemId());
 
                 //todo:查看用户是否抢购成功过一个商品
-                if (itemKillSuccessMapper.selectOne(queryWrapperq) != null) {
+                if(redisUtils.get("com:hyx:miaosha"+killRequest.getItemId()+ ":"+killRequest.getUserId()) != null){
                     return new CommonResult<>(400, "您已经抢购过该商品了", null);
                 }
-                ItemKill itemKill = itemKillMapper.getGoods(killRequest.getItemId());
+
+                //todo：获取商品基本信息，存入缓存中
+                String temp = JSONObject.toJSONString(redisUtils.hmget("com:hyx:miaosha:goods:"+killRequest.getItemId()));
+                ItemKill itemKill = JSONObject.parseObject(temp,ItemKill.class);
+
+                if(itemKill.getIsKill() == null){
+                    itemKill = itemKillMapper.getGoods(killRequest.getItemId());
+                    if(itemKill == null){
+                        return new CommonResult<>(401, "商品活动已结束", null);
+                    }
+                    Map<String,Object> map = new HashMap<>();
+                    map.put("isKill",itemKill.getIsKill());
+                    map.put("total",itemKill.getTotal());
+                    map.put("itemId",itemKill.getItemId());
+                    map.put("id",itemKill.getId());
+                    redisUtils.hmset("com:hyx:miaosha:goods:"+killRequest.getItemId(),map,60);
+                    redisUtils.set("com:hyx:miaosha:goods:total:"+killRequest.getItemId(),itemKill.getTotal(),60);
+                }
 
                 //todo:查看商品是否下架
-                if (itemKill == null || itemKill.getIsKill() == 0) {
+                if (itemKill.getIsKill() == 0) {
                     return new CommonResult<>(401, "商品活动已结束", null);
                 }
-
+                long total = Integer.parseInt(redisUtils.get("com:hyx:miaosha:goods:total:"+killRequest.getItemId()).toString());
                 //todo:查看商品库存是否还有
-                if (itemKill.getTotal() <= 0) {
+                if(total <= 0){
                     return new CommonResult<>(402, "商品已被抢光，你慢了一步", null);
                 }
+
                 //todo:抢购商品，库存减少，成功则在数据库中增加订单信息
-                int res = itemKillMapper.updateGoodsTotal(killRequest.getItemId());
-                if (res > 0) {
+                total = redisUtils.decr("com:hyx:miaosha:goods:total:"+killRequest.getItemId(),1);
+
+                //todo:当缓存中的库存减少到0时，就去修改数据库中的库存数据
+                if(total == 0){
+                    itemKillMapper.updateGoodsTotal(killRequest.getItemId());
+                }
+                if (total > 0) {
                     commonRecordKillSuccessInfo(itemKill, killRequest.getUserId());
                     return new CommonResult<>(200, "抢购成功", null);
                 }
@@ -124,13 +145,12 @@ public class ItemKillServiceImpl extends ServiceImpl<ItemKillMapper, ItemKill> i
         entity.setStatus(0);
         entity.setCreateTime(DateUtil.parse(DateUtil.now()));
 
-        QueryWrapper<ItemKillSuccess> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("item_id",kill.getItemId());
-        queryWrapper.eq("user_id",userId);
-
         //TODO:再次检查是否已经抢购成功，并生成订单信息
-        if (itemKillSuccessMapper.selectCount(queryWrapper) <= 0){
+        if(redisUtils.get("com:hyx:miaosha"+kill.getItemId()+ ":"+userId) == null){
             int res=itemKillSuccessMapper.insert(entity);
+            if(res>0){
+                redisUtils.set("com:hyx:miaosha"+kill.getItemId()+ ":"+userId,entity,60);
+            }
 
 //            if (res>0){
 //                //TODO:进行异步邮件消息的通知=rabbitmq+mail
