@@ -22,7 +22,7 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @ApiModel(value="ItemKill对象", description="待秒杀商品表")
-public class ItemKill  extends ItemKillBase implements Serializable{
+public class ItemKill implements Serializable{
 
     private static final long serialVersionUID = 1L;
 

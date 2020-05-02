@@ -3,6 +3,7 @@ package com.hyx.miaosha.mapper;
 import com.hyx.miaosha.entities.ItemKillSuccess;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -15,4 +16,5 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface ItemKillSuccessMapper extends BaseMapper<ItemKillSuccess> {
 
+    int updateOrderStatus(@Param("code") String code);
 }

@@ -40,6 +40,12 @@ spring:
     timeout: 50000ms
     client-name: "hyx:miaosha:"
     port: 6379
+  rabbitmq:
+    host: localhost
+    username: hyx
+    password: hyx
+
+
 
 #配置mybatis-plus
 mybatis-plus:
@@ -49,3 +55,19 @@ mybatis-plus:
 logging:
   file:
     path: miaosha.log
+
+
+prix: com.hyx.miaosha
+email:
+  queue: ${prix}.email.queue
+  exchange: ${prix}.email.exchange
+  routingkey: ${prix}.email.routing.key
+
+dead:
+  queue: ${prix}.dead.queue
+  exchange: ${prix}.dead.exchange
+  routingkey: ${prix}.dead.routing.key
+  prod:
+    queue: ${prix}.dead.prod.queue
+    exchange: ${prix}.dead.prod.exchange
+    routingkey: ${prix}.dead.prod.routing.key

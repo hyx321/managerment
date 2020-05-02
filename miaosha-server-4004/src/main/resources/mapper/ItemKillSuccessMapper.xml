@@ -2,4 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hyx.miaosha.mapper.ItemKillSuccessMapper">
 
+    <update id="updateOrderStatus" parameterType="string">
+        UPDATE item_kill_success
+        SET status = -1
+        where status =0 and code = #{code}
+    </update>
 </mapper>

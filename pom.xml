@@ -59,10 +59,16 @@
         <gateway.version>2.2.2.RELEASE</gateway.version>
         <freemarker.version>2.2.2.RELEASE</freemarker.version>
         <fastjson.version>1.2.68</fastjson.version>
+        <rabbitmq.version>2.2.6.RELEASE</rabbitmq.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-amqp</artifactId>
+                <version>${rabbitmq.version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>

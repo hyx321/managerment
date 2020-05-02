@@ -32,6 +32,7 @@ A(前端界面) --> B(gateway-server)
 + `redis` 数据存储 
 + `mysql` 数据库
 + `mybatisplus` 
++ `rabbitmq` 消息队列
 
 *太菜了我*
 

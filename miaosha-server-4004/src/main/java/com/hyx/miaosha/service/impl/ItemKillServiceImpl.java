@@ -13,6 +13,7 @@ import com.hyx.miaosha.entities.ItemKillSuccess;
 import com.hyx.miaosha.entities.KillRequest;
 import com.hyx.miaosha.mapper.ItemKillMapper;
 import com.hyx.miaosha.mapper.ItemKillSuccessMapper;
+import com.hyx.miaosha.rabbitmq.RabbitSender;
 import com.hyx.miaosha.service.ItemKillService;
 import com.hyx.miaosha.utils.SnowFlake;
 import lombok.extern.slf4j.Slf4j;
@@ -54,6 +55,9 @@ public class ItemKillServiceImpl extends ServiceImpl<ItemKillMapper, ItemKill> i
     @Resource
     private RedissonClient redissonClient;
 
+    @Resource
+    private RabbitSender rabbitSender;
+
     @Override
     public CommonResult getMiaoshaList() {
         List<ItemKill> itemKills = itemKillMapper.getMiaoshaList();
@@ -70,10 +74,8 @@ public class ItemKillServiceImpl extends ServiceImpl<ItemKillMapper, ItemKill> i
 
         String lock = "lock";
         RLock rLock = redissonClient.getLock(lock);
-        logger.info("得到锁："+lock);
         try {
             if (rLock.tryLock(0, 3, TimeUnit.SECONDS)) {
-                logger.info("重新获取锁："+lock);
 
                 //todo:查看用户是否抢购成功过一个商品
                 if(redisUtils.get("com:hyx:miaosha"+killRequest.getItemId()+ ":"+killRequest.getUserId()) != null){
@@ -115,7 +117,7 @@ public class ItemKillServiceImpl extends ServiceImpl<ItemKillMapper, ItemKill> i
                 if(total == 0){
                     itemKillMapper.updateGoodsTotal(killRequest.getItemId());
                 }
-                if (total > 0) {
+                if (total >= 0) {
                     commonRecordKillSuccessInfo(itemKill, killRequest.getUserId());
                     return new CommonResult<>(200, "抢购成功", null);
                 }
@@ -124,7 +126,6 @@ public class ItemKillServiceImpl extends ServiceImpl<ItemKillMapper, ItemKill> i
             if(rLock.isLocked()){
                 if(rLock.isHeldByCurrentThread()){
                     rLock.unlock();
-                    logger.info("释放锁："+lock);
                 }
             }
         }
@@ -150,15 +151,12 @@ public class ItemKillServiceImpl extends ServiceImpl<ItemKillMapper, ItemKill> i
             int res=itemKillSuccessMapper.insert(entity);
             if(res>0){
                 redisUtils.set("com:hyx:miaosha"+kill.getItemId()+ ":"+userId,entity,60);
-            }
+                //TODO:进行异步邮件消息的通知=rabbitmq+mail
+                rabbitSender.sendKillSuccessEmailMsg(userId);
 
-//            if (res>0){
-//                //TODO:进行异步邮件消息的通知=rabbitmq+mail
-//                rabbitSenderService.sendKillSuccessEmailMsg(orderNo);
-//
-//                //TODO:入死信队列，用于 “失效” 超过指定的TTL时间时仍然未支付的订单
-//                rabbitSenderService.sendKillSuccessOrderExpireMsg(orderNo);
-//            }
+                //TODO:入死信队列，用于 “失效” 超过指定的TTL时间时仍然未支付的订单
+                rabbitSender.sendKillSuccessOrderExpireMsg(orderNo);
+            }
         }
     }
 }

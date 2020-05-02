@@ -3,7 +3,6 @@ package com.hyx.miaosha.service;
 import com.hyx.common.entities.CommonResult;
 import com.hyx.miaosha.entities.ItemKill;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.hyx.miaosha.entities.ItemKillBase;
 import com.hyx.miaosha.entities.KillRequest;
 
 /**
