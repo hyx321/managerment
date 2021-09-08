@@ -53,7 +53,7 @@
         <pool.version>2.6.0</pool.version>
         <nacos.discovery.version>2.2.1.RELEASE</nacos.discovery.version>
         <openfeign.version>2.2.2.RELEASE</openfeign.version>
-        <dubbo.version>2.7.3</dubbo.version>
+        <dubbo.version>2.7.13</dubbo.version>
         <dubbo.nacos.version>2.7.3</dubbo.nacos.version>
         <nacos.config.version>2.2.0.RELEASE</nacos.config.version>
         <gateway.version>2.2.2.RELEASE</gateway.version>
