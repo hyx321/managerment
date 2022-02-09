@@ -47,7 +47,7 @@
         <swagger.version>2.9.2</swagger.version>
         <lombok.version>1.18.2</lombok.version>
         <mybatisplus.version>3.3.1.tmp</mybatisplus.version>
-        <shiro.version>1.5.2</shiro.version>
+        <shiro.version>1.7.1</shiro.version>
         <redis.version>2.2.6.RELEASE</redis.version>
         <redis.session.version>2.2.2.RELEASE</redis.session.version>
         <pool.version>2.6.0</pool.version>
