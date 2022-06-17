@@ -58,7 +58,7 @@
         <nacos.config.version>2.2.0.RELEASE</nacos.config.version>
         <gateway.version>2.2.2.RELEASE</gateway.version>
         <freemarker.version>2.2.2.RELEASE</freemarker.version>
-        <fastjson.version>1.2.68</fastjson.version>
+        <fastjson.version>1.2.83</fastjson.version>
         <rabbitmq.version>2.2.6.RELEASE</rabbitmq.version>
     </properties>
 
