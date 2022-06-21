@@ -36,7 +36,7 @@
         <junit.version>4.12</junit.version>
         <lombok.version>1.18.10</lombok.version>
         <log4j.version>1.2.17</log4j.version>
-        <mysql.version>8.0.18</mysql.version>
+        <mysql.version>8.0.28</mysql.version>
         <druid.version>1.1.16</druid.version>
         <thymeleaf.version>2.2.5.RELEASE</thymeleaf.version>
         <bootstrap.version>4.4.1-1</bootstrap.version>
